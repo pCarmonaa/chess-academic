@@ -2,7 +2,11 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from openai import OpenAI
 import os
+import sys
 from dotenv import load_dotenv
+
+sys.path.insert(0, './src/analyzer')
+
 from position_analyzer import PositionAnalyzer
 from concepts_repository import ConceptsRepository
 
@@ -60,16 +64,17 @@ def build_prompt(aspect, fen, pre_analysis, concepts):
             f'Use markdown format on response.\n'
             f'Don\'t include any board representation.\n'
             f'Don\'t include references to the raw report.\n'
-            f'Don\'t include number of controlled squares, generalize.\n'
-            f'Use a maximum of {500 if aspect == 'General analysis'else 200} words\n'
-            f'Includes explanations of the key concepts included in the analysis\n\n'
+            f'Don\'t refer to the number of squares a piece has under control.\n'
+            f'Don\'t refer to the number of squares that are under attack.\n'
+            f'Use a maximum of {get_report_words(aspect)} words on the report.\n'
+            f'Includes explanations of the chess concepts identified in the analysis.\n\n'
             f"Question: {build_question(aspect)}\n\n")
 
     if use_rag and concepts != '':
         prompt += (
             f'Theese are a list of relevant concepts '
             f'that you can use as context:\n{concepts}')
-        
+
     return prompt
 
 def default_no_analysis_answer():
@@ -122,19 +127,28 @@ def extract_keywords(pre_analysis, aspect):
 def get_relevant_pre_analysis(pre_analysis, aspect):
     match aspect:
         case 'Material':
-            return pre_analysis['Material']
+            return {'Material': pre_analysis['Material']}
         case 'Pawn structure':
-            return pre_analysis['Pawn Structure']
+            return {'Pawn structure': pre_analysis['Pawn Structure']}
         case 'King\'s safety':
-            return pre_analysis['King Safety']
+            return {'King\'s safety': pre_analysis['King Safety']}
         case 'Piece activity':
-            return pre_analysis['Pieces Activity']
+            return {'Piece activity': pre_analysis['Pieces Activity']}
         case 'Threats':
-            return pre_analysis['Threads']
+            return {'Threats': pre_analysis['Threads']}
         case 'Space':
-            return pre_analysis['Space']
+            return {'Space': pre_analysis['Space']}
         case _:
             return pre_analysis
+        
+def get_report_words(aspect):
+    match aspect:
+        case 'Material' | 'Space':
+            return 100
+        case 'General analysis':
+            return 500
+        case _:
+            return 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

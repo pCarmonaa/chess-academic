@@ -17,9 +17,11 @@ RUN rm -R StockfishTraces
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./src .
+COPY ./src ./src
 COPY ./data ./data
+
+ENV PYTHONPATH=/app/src:$PYTHONPATH
 
 EXPOSE 5000
 
-CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "app:app"]
+CMD ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "src.app:app"]
