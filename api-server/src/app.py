@@ -94,7 +94,7 @@ def ask_chatgpt(prompt):
     response = client.chat.completions.create(
         model=chatgpt_version,
         messages=[
-            {"role": "system", "content": "You are a helpful chess assistant."},
+            {"role": "system", "content": "You are a helpful chess professor."},
             {"role": "user", "content": prompt}
         ]
     )

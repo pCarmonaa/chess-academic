@@ -22,7 +22,7 @@ const Chatbot = ({ fen }) => {
   ];
 
   useEffect(() => {
-    setMessages([{ sender: 'bot', text: "Hi, I'm your chess assistant. Set a position on the board, and select the analysis you want." }]);
+    setMessages([{ sender: 'bot', text: "Hi, I'm your chess professor. Set a position on the board, and select the analysis you want." }]);
   }, []);
 
   useEffect(() => {

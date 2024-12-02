@@ -1,8 +1,8 @@
-# Chess Assistant
+# Chess Academic
 
 ## Project Overview
 
-Chess Assistant is an interactive tool that allows users to set chess positions on a virtual board and request a strategic analysis of the position through a chatbot. Users can choose between receiving a general report on the position or focusing on specific aspects, such as the pawn structure, piece activity, and others. The project leverages advanced natural language processing technologies via LLMs to provide understandable and useful natural language analyses, going beyond traditional chess engines that only provide the best move.
+Chess Academic is an interactive tool that allows users to set chess positions on a virtual board and request a strategic analysis of the position through a chatbot. Users can choose between receiving a general report on the position or focusing on specific aspects, such as the pawn structure, piece activity, and others. The project leverages advanced natural language processing technologies via LLMs to provide understandable and useful natural language analyses, going beyond traditional chess engines that only provide the best move.
 
 ## Project Components
 
@@ -44,8 +44,8 @@ To run the service manually, you need to download this project, compile it, and 
 
    ```bash
    cd api-server
-   python -m venv chess-assistant
-   source chess-assistant/bin/activate  # On Windows: chess-assistant\Scripts\activate
+   python -m venv chess-academic
+   source chess-academic/bin/activate  # On Windows: chess-academic\Scripts\activate
    ```
 
 #### 3. Installing Backend Dependencies  

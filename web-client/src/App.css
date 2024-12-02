@@ -32,7 +32,7 @@ body {
 }
 
 .App-logo {
-  width: 50px;
+  width: 60px;
   height: auto;
   margin-right: 20px;
 }
@@ -40,6 +40,14 @@ body {
 .App-header h1 {
   font-weight: 700;
   font-size: 2rem;
+}
+
+.App-subtitle {
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-top: 5px;
+  color: #cccccc;
+  text-align: left;
 }
 
 main {

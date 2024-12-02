@@ -9,9 +9,12 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+       <header className="App-header">
         <img src={logo} alt="Logo" className="App-logo" />
-        <h1>Chess Assistant</h1>
+        <div>
+          <h1>Chess Academic</h1>
+          <h2 className="App-subtitle">Deep Chess Analysis Powered by Artificial Intelligence</h2>
+        </div>
       </header>
       <main>
         <div className="container">
