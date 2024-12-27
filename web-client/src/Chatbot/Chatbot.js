@@ -4,6 +4,8 @@ import './Chatbot.css';
 import userIcon from '../assets/user-character.png';
 import professorIcon from '../assets/bot-character.png';
 
+const proxyUrl = process.env.REACT_APP_PROXY_URL || 'http://localhost:8010';
+
 const Chatbot = ({ fen }) => {
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState(null);
@@ -44,7 +46,7 @@ const Chatbot = ({ fen }) => {
         aspect: aspect,
         fen: fen,
       }));
-      const response = await fetch(`http://localhost:8010/proxy/analyze?aspect=${encodeURIComponent(aspect)}` +
+      const response = await fetch(`${proxyUrl}/analyze?aspect=${encodeURIComponent(aspect)}` +
           `&fen=${encodeURIComponent(fen)}`, {
         method: 'GET',
         headers: {

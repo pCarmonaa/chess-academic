@@ -7,6 +7,8 @@ services:
       - "8010:8010"
     environment:
       - REACT_APP_BACKEND_URL=http://api-server:5000
+      - REACT_APP_PROXY_URL=http://localhost:8010
+      - ALLOWED_ORIGINS=http://localhost:3000
     depends_on:
       - api-server
     networks:
@@ -15,7 +17,7 @@ services:
   api-server:
     build: ./api-server
     environment:
-      - ALLOWED_IP=web-client
+      - ALLOWED_ORIGINS=http://localhost:3000, http://127.0.0.1:3000
       - OPENAI_API_KEY=set-your-chatgpt-token-here
       - STOCKFISH_PATH=stockfish/stockfish
       - CHATGPT_VERSION=gpt-4o

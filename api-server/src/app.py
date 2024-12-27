@@ -14,13 +14,19 @@ app = Flask(__name__)
 
 load_dotenv()
 
-allowed_ip = os.getenv('ALLOWED_IP', '127.0.0.1')
-cors = CORS(app, resources={r"/*": {"origins": f"http://{allowed_ip}"}})
+allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+allowed_origins = [origin.strip() for origin in allowed_origins]
+
+cors = CORS(app, resources={r"/*": {"origins": allowed_origins}}, supports_credentials=True)
 
 stockfish_path = os.getenv('STOCKFISH_PATH')
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 chatgpt_version = os.getenv('CHATGPT_VERSION')
 use_rag = os.getenv('USE_RAG', 'False').lower() == 'true'
+
+@app.route('/health', methods=['GET'])
+def health():
+    return 'OK'
 
 analyzer = PositionAnalyzer(stockfish_path)
 repository = ConceptsRepository() if use_rag else None
@@ -50,7 +56,6 @@ def analyze():
         prompt = build_prompt(aspect, fen, pre_analysis, concepts)
                 
         response = ask_chatgpt(prompt)
-        response.headers.add('Access-Control-Allow-Origin', '*')
         return response
     except Exception as e:
         print(str(e))

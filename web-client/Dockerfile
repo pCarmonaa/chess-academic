@@ -3,7 +3,7 @@ FROM node:22
 WORKDIR /app
 
 COPY package*.json ./
-COPY server.js ./
+COPY *.js ./
 RUN npm install
 
 COPY src src
