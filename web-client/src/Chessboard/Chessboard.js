@@ -4,7 +4,7 @@ import { Chessboard as ReactChessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
 import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
 
-  const ChessboardComponent = ({ fen, setFen }) => {
+const ChessboardComponent = ({ fen, setFen }) => {
   const [game, setGame] = useState(new Chess(fen));
   const [pgn, setPgn] = useState(game.pgn());
   const [history, setHistory] = useState([]);
@@ -16,6 +16,8 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
   const [bestLines, setBestLines] = useState(['', '', '']);
   const [score, setScore] = useState('');
   const stockfishDepth = process.env.REACT_APP_STOCKFISH_DEPTH || 18;
+  const [boardWidth, setBoardWidth] = useState(window.innerWidth * 0.35);
+  const [adjustedHeight, setAdjustedHeight] = useState(window.innerHeight * 0.1);
 
   const stockfishRef = useRef(null);
 
@@ -25,6 +27,13 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
     R: '♖',
     B: '♗',
     N: '♘',
+  };
+
+  const updateBoardWidth = () => {
+    setBoardWidth(window.innerWidth * 0.35);
+  };
+  const updateAdjustedHeight = () => {
+    setAdjustedHeight(window.innerHeight * 0.1);
   };
   
   const onDrop = (sourceSquare, targetSquare, piece) => {
@@ -120,6 +129,19 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
       window.removeEventListener('keydown', handleKeyDown);
     };
   });
+
+  useEffect(() => {
+    window.addEventListener('resize', updateBoardWidth);
+    return () => {
+      window.removeEventListener('resize', updateBoardWidth);
+    };
+  }, []);
+  useEffect(() => {
+    window.addEventListener('resize', updateAdjustedHeight);
+    return () => {
+      window.removeEventListener('resize', updateAdjustedHeight);
+    };
+  }, []);
 
   const goBack = () => {
     game.undo();
@@ -339,16 +361,15 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
           </div>
           <div className="best-lines">
             {bestLines.map((line, index) => (
-              <div key={index} className="pgn-line">
+              <div key={index} className="pgn-line" style={{ height: adjustedHeight }}>
                 {line}
               </div>
             ))}
           </div>
-
         </div>
         <div className="fen-input">
           <label htmlFor="fen">FEN</label>
-          <textarea id="fen" value={fen} onChange={handleFenChange} />
+          <textarea id="fen" value={fen} onChange={handleFenChange} style={{ height: adjustedHeight*0.8 }}/>
         </div>
         <div className="pgn-input">
           <label htmlFor="pgn">PGN</label>
@@ -357,6 +378,7 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
             value={convertToEmoticonsText(pgn)}
             onChange={handlePgnChange}
             placeholder="Set a valid PGN"
+            style={{ height: adjustedHeight*2 }}
           />
         </div>
       </div>
@@ -370,7 +392,7 @@ import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
         <ReactChessboard
           position={fen}
           onPieceDrop={onDrop}
-          boardWidth={700}
+          boardWidth={boardWidth}
           boardOrientation={orientation}
           customSquareStyles={customSquareStyles}
           onSquareRightClick={handleRightClick}
