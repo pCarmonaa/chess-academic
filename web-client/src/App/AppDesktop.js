@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import ChessboardComponent from './Chessboard/Chessboard';
-import Chatbot from './Chatbot/Chatbot';
-import logo from './logo.png';
+import ChessboardComponent from '../Chessboard/Chessboard';
+import Chatbot from '../Chatbot/Chatbot';
+import logo from '../logo.png';
 
-function App() {
-  const [fen, setFen] = useState('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
-
+const AppDesktop = (props) => {
+  const {
+    fen,
+    setFen,
+    isMobile
+  } = props;
+  
   return (
     <div className="App">
-       <header className="App-header">
+      <header className="App-header">
         <img src={logo} alt="Logo" className="App-logo" />
         <div>
           <h1>Chess Academic</h1>
@@ -19,7 +23,7 @@ function App() {
       <main>
         <div className="container">
           <div className="chessboard-section">
-            <ChessboardComponent fen={fen} setFen={setFen} />
+            <ChessboardComponent fen={fen} setFen={setFen} isMobile={isMobile} />
           </div>
           <div className="chat-container">
             <Chatbot fen={fen} />
@@ -29,5 +33,5 @@ function App() {
     </div>
   );
 }
-
-export default App;
+  
+export default AppDesktop;

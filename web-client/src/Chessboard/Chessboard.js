@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Chessboard.css';
-import { Chessboard as ReactChessboard } from 'react-chessboard';
 import { Chess } from 'chess.js';
-import { FaArrowLeft, FaArrowRight, FaSyncAlt, FaUndo } from 'react-icons/fa';
+import ChessboardDesktop from './ChessboardDesktop';
+import ChessboardMobile from  './ChessboardMobile';
 
-const ChessboardComponent = ({ fen, setFen }) => {
+const ChessboardComponent = ({ fen, setFen, isMobile }) => {
+
   const [game, setGame] = useState(new Chess(fen));
   const [pgn, setPgn] = useState(game.pgn());
   const [history, setHistory] = useState([]);
@@ -13,10 +13,10 @@ const ChessboardComponent = ({ fen, setFen }) => {
   const [stockfishSquares, setStockfishScuares] = useState([]);
   const [isStockfishEnabled, setIsStockfishEnabled] = useState(false);
   const [bestMove, setBestMove] = useState(null);
-  const [bestLines, setBestLines] = useState(['', '', '']);
+  const [bestLines, setBestLines] = useState(isMobile ? [''] : ['', '', '']);
   const [score, setScore] = useState('');
   const stockfishDepth = process.env.REACT_APP_STOCKFISH_DEPTH || 18;
-  const [boardWidth, setBoardWidth] = useState(window.innerWidth * 0.35);
+  const [boardWidth, setBoardWidth] = useState(isMobile ? window.innerWidth * 0.85 : window.innerWidth * 0.35);
   const [adjustedHeight, setAdjustedHeight] = useState(window.innerHeight * 0.1);
 
   const stockfishRef = useRef(null);
@@ -30,7 +30,12 @@ const ChessboardComponent = ({ fen, setFen }) => {
   };
 
   const updateBoardWidth = () => {
-    setBoardWidth(window.innerWidth * 0.35);
+    if(isMobile) {
+      setBoardWidth(window.innerWidth * 0.85);
+    }
+    else {
+      setBoardWidth(window.innerWidth * 0.35);
+    }
   };
   const updateAdjustedHeight = () => {
     setAdjustedHeight(window.innerHeight * 0.1);
@@ -189,7 +194,7 @@ const ChessboardComponent = ({ fen, setFen }) => {
     setSelectedSquares([]);
     setStockfishScuares([]);
     setBestMove(null);
-    setBestLines(['', '', '']);
+    setBestLines(isMobile ? [''] : ['', '', '']);
     setScore('');
   };
 
@@ -247,7 +252,7 @@ const ChessboardComponent = ({ fen, setFen }) => {
   
       setBestLines((prev) => {
         const updated = [...prev, pgn];
-        return updated.slice(-3);
+        return isMobile ? updated.slice(-1) : updated.slice(-3);
       });
     }
   };
@@ -273,7 +278,7 @@ const ChessboardComponent = ({ fen, setFen }) => {
     }
     else {
           setBestMove(null);
-          setBestLines(['', '', '']);
+          setBestLines(isMobile ? [''] : ['', '', '']);
           setScore('');
           setStockfishScuares([]);
     }
@@ -341,74 +346,56 @@ const ChessboardComponent = ({ fen, setFen }) => {
     highlightBestMove();
   }, [bestMove]);
 
-  return (
-    <div className="chessboard-wrapper">
-      <div className="info-container">
-      <div className="stockfish-control">
-          <h2 className="stockfish-title">Stockfish v16 NNUE</h2>
-          <div className="stockfish-toggle">
-            <label className="switch">
-              <input
-                type="checkbox"
-                checked={isStockfishEnabled}
-                onChange={toggleStockfish}
-              />
-              <span className="slider round"></span>
-            </label>
-            <span className="score-display-text">
-              {score || '---'}
-            </span>
-          </div>
-          <div className="best-lines">
-            {bestLines.map((line, index) => (
-              <div key={index} className="pgn-line" style={{ height: adjustedHeight }}>
-                {line}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="fen-input">
-          <label htmlFor="fen">FEN</label>
-          <textarea id="fen" value={fen} onChange={handleFenChange} style={{ height: adjustedHeight*0.8 }}/>
-        </div>
-        <div className="pgn-input">
-          <label htmlFor="pgn">PGN</label>
-          <textarea
-            id="pgn"
-            value={convertToEmoticonsText(pgn)}
-            onChange={handlePgnChange}
-            placeholder="Set a valid PGN"
-            style={{ height: adjustedHeight*2 }}
-          />
-        </div>
-      </div>
-      <div className="chessboard-container">
-        <button className="reset-button" onClick={resetBoard}>
-          <FaUndo />
-        </button>
-        <button className="flip-button" onClick={flipBoard}>
-          <FaSyncAlt />
-        </button>
-        <ReactChessboard
-          position={fen}
-          onPieceDrop={onDrop}
-          boardWidth={boardWidth}
-          boardOrientation={orientation}
-          customSquareStyles={customSquareStyles}
-          onSquareRightClick={handleRightClick}
-          onSquareClick={handleLeftClick}
-        />
-        <div className="controls">
-          <div className="navigation-buttons">
-            <button onClick={goBack}>
-              <FaArrowLeft />
-            </button>
-            <button onClick={goForward}>
-              <FaArrowRight />
-            </button>
-          </div>
-        </div>
-      </div>
+  return isMobile ? (
+    <div className="mobile">
+      <ChessboardMobile
+        fen={fen} 
+        onDrop={onDrop} 
+        boardWidth={boardWidth} 
+        orientation={orientation} 
+        resetBoard={resetBoard} 
+        flipBoard={flipBoard} 
+        score={score} 
+        pgn={pgn} 
+        bestLines={bestLines} 
+        customSquareStyles={customSquareStyles} 
+        adjustedHeight={adjustedHeight} 
+        isStockfishEnabled={isStockfishEnabled} 
+        toggleStockfish={toggleStockfish} 
+        convertToEmoticonsText={convertToEmoticonsText} 
+        handleRightClick={handleRightClick} 
+        handleLeftClick={handleLeftClick} 
+        handleFenChange={handleFenChange} 
+        goBack={goBack} 
+        goForward={goForward}
+        handlePgnChange={handlePgnChange}
+      />
+    </div>
+  ) : 
+  (
+    <div className="desktop">
+      <ChessboardDesktop
+        fen={fen} 
+        onDrop={onDrop} 
+        boardWidth={boardWidth} 
+        orientation={orientation} 
+        resetBoard={resetBoard} 
+        flipBoard={flipBoard} 
+        score={score} 
+        pgn={pgn} 
+        bestLines={bestLines} 
+        customSquareStyles={customSquareStyles} 
+        adjustedHeight={adjustedHeight} 
+        isStockfishEnabled={isStockfishEnabled} 
+        toggleStockfish={toggleStockfish} 
+        convertToEmoticonsText={convertToEmoticonsText} 
+        handleRightClick={handleRightClick} 
+        handleLeftClick={handleLeftClick} 
+        handleFenChange={handleFenChange} 
+        goBack={goBack} 
+        goForward={goForward}
+        handlePgnChange={handlePgnChange}
+      />
     </div>
   );
 };

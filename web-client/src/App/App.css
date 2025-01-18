@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.desktop, .mobile {
+  display: contents;
+}
+
+.desktop * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.mobile * {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Merriweather', serif;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #1c1c1c;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+}
+
+.mobile .App {
+  padding: 10px;
+  height: 100vh;
+}
+
+.desktop .App-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.mobile .App-header {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.desktop .App-logo {
+  width: 60px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.mobile .App-logo {
+  width: auto;
+  height: 5rem;
+}
+
+.desktop .App-header h1 {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.mobile .App-header h1 {
+  font-size: 1.5rem;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.App-subtitle {
+  font-weight: 400;
+  font-size: 1.2rem;
+  margin-top: 5px;
+  color: #cccccc;
+  text-align: left;
+}
+
+.mobile .App-subtitle {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+
+.desktop .container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 140px);
+  overflow: hidden;
+}
+
+.chessboard-section {
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile .chessboard-section {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+.chat-container {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  background-color: #1c1c1c;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.mobile .chat-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.mobile .header-title-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.mobile .title-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile .tabs {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.mobile .tab-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #cccccc;
+  flex: 1;
+  text-align: center;
+  border-bottom: 3px solid transparent;
+}
+
+.mobile .tab-button.active {
+  color: #ffffff;
+  border-bottom: 3px solid #007bff;
+}
+
+.mobile .tab-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hidden-tab {
+  display: none;
+}
+
+.active-tab {
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .mobile .App-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .mobile .App-subtitle {
+    font-size: 0.9rem;
+    margin-top: 0;
+  }
+
+  .mobile .tab-button {
+    font-size: 1rem;
+  }
+}
