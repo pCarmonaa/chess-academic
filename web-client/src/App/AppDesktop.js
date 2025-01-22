@@ -14,7 +14,7 @@ const AppDesktop = (props) => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} alt="Logo" className="App-logo" />
+        <img src={logo} alt="Chess Academic Logo" className="App-logo" />
         <div>
           <h1>Chess Academic</h1>
           <h2 className="App-subtitle">Deep Chess Analysis Powered by Artificial Intelligence</h2>
