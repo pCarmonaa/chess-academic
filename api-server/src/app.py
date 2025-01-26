@@ -54,7 +54,6 @@ def analyze():
         keywords = extract_keywords(pre_analysis, aspect)
         concepts = repository.search(phase, aspect, keywords) if use_rag else None
         prompt = build_prompt(aspect, fen, pre_analysis, concepts)
-                
         response = ask_chatgpt(prompt)
         return response
     except Exception as e:
@@ -64,16 +63,27 @@ def analyze():
 def build_prompt(aspect, fen, pre_analysis, concepts):
     piece_locations = analyzer.get_piece_locations(fen)
     prompt = (
-            f"Piece Locations:\n{piece_locations}\n"
-            f"Pre-analysis:\n{get_relevant_pre_analysis(pre_analysis, aspect)}\n\n"
-            f'Use markdown format on response.\n'
-            f'Don\'t include any board representation.\n'
-            f'Don\'t include references to the raw report.\n'
-            f'Don\'t refer to the number of squares a piece has under control.\n'
-            f'Don\'t refer to the number of squares that are under attack.\n'
-            f'Use a maximum of {get_report_words(aspect)} words on the report.\n'
-            f'Includes explanations of the chess concepts identified in the analysis.\n\n'
-            f"Question: {build_question(aspect)}\n\n")
+            f'''
+Piece Locations:\n{piece_locations}
+
+Pre-analysis:\n{get_relevant_pre_analysis(pre_analysis, aspect)}
+
+Do not analyze the position on the board directly.
+Base your observations solely on the data provided in the pre-analysis.
+You may add strategic interpretation based on the provided data.
+Includes explanations of the chess concepts identified in the analysis.
+{'Deduce the piece activity acording to the ratio of controlled and moveable squares with the potencial' 
+    if aspect in ['Piece activity', 'General analysis', 'Plans'] else ''}
+
+Use markdown format on response.
+Don\'t include any board representation.
+Don\'t include references to the raw report or pre-analysis.
+Don\'t refer to the number of squares a piece has under control.
+Don\'t refer to the number of squares that are under attack.
+Use a maximum of {get_report_words(aspect)} words on the report.
+
+Question: {build_question(aspect)}
+            ''')
 
     if use_rag and concepts != '':
         prompt += (

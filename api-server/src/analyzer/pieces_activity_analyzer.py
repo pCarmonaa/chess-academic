@@ -21,16 +21,6 @@ class PieceActivityAnalyzer:
                 stockfish_analysis
             )
 
-            # Create a dictionary with the piece scores extracted from the NNUE pieces score section
-            nnue_scores = re.findall(
-                r'(\w+ \w+) of (\w\d): ([\d.]+)',
-                stockfish_analysis
-            )
-            piece_scores = {
-                f'{name} of {square}': float(score)
-                for name, square, score in nnue_scores
-            }
-
             for piece_data in pieces_data:
                 # Identify the type of piece and its position
                 piece_type = re.findall(
@@ -52,9 +42,10 @@ class PieceActivityAnalyzer:
                     num_controlled_squares = len(
                         controlled_squares[0].split(', ')
                     )
+                    potencial = max_squares_controled[piece_name.split()[1]]
                     piece_info.append(
-                        f'Controlled squares: {num_controlled_squares}'
-                    )
+                        f'Current controlled squares: {num_controlled_squares} of {potencial} potential '
+                        f'({num_controlled_squares / potencial*100:.2f}%)')
 
                 # Extract the number of squares the piece can move to
                 moveable_squares = re.findall(
@@ -62,9 +53,10 @@ class PieceActivityAnalyzer:
                     piece_data
                 )
                 if moveable_squares:
-                    piece_info.append(f'Moveable squares: {moveable_squares[0]}')
-
-                piece_info.append(f'Max squares can control: {max_squares_controled[piece_name.split()[1]]}')
+                    potencial = max_squares_controled[piece_name.split()[1]]
+                    piece_info.append(
+                        f'Current moveable squares: {moveable_squares[0]} of {potencial} potential '
+                        f'({int(moveable_squares[0]) / potencial*100:.2f}%)')
 
                 # Extract additional information for specific pieces
                 if 'Bishop' in piece_name or 'Knight' in piece_name:
@@ -113,8 +105,7 @@ class PieceActivityAnalyzer:
                 piece_key = f'{piece_name} of {piece_position}'
                 piece_activity = {
                     'Piece': piece_key,
-                    'Piece info': piece_info,
-                    'Piece score': piece_scores.get(piece_key, 'N/A')
+                    'Piece info': piece_info
                 }
 
                 if 'White' in piece_name:
