@@ -1,8 +1,8 @@
-# Chess Academic
+# Intelli Chess Lab
 
 ## Project Overview
 
-Chess Academic is an interactive tool that allows users to set chess positions on a virtual board and request a strategic analysis of the position through a chatbot. Users can choose between receiving a general report on the position or focusing on specific aspects, such as the pawn structure, piece activity, and others. The project leverages advanced natural language processing technologies via LLMs to provide understandable and useful natural language analyses, going beyond traditional chess engines that only provide the best move.
+Intelli Chess Lab is an interactive tool that allows users to set chess positions on a virtual board and request a strategic analysis of the position through a chatbot. Users can choose between receiving a general report on the position or focusing on specific aspects, such as the pawn structure, piece activity, and others. The project leverages advanced natural language processing technologies via LLMs to provide understandable and useful natural language analyses, going beyond traditional chess engines that only provide the best move.
 
 ## Project Components
 
@@ -44,8 +44,8 @@ To run the service manually, you need to download this project, compile it, and 
 
    ```bash
    cd api-server
-   python -m venv chess-academic
-   source chess-academic/bin/activate  # On Windows: chess-academic\Scripts\activate
+   python -m venv intelli-chess-lab
+   source intelli-chess-lab/bin/activate  # On Windows: intelli-chess-lab\Scripts\activate
    ```
 
 #### 3. Installing Backend Dependencies  

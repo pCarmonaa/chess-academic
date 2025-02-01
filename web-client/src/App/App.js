@@ -16,21 +16,21 @@ function App() {
           {
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Chess Academic",
-            "url": "https://chessacademic.com",
-            "description": "Chess Academic is an AI-powered tool designed for analyzing chess positions. Use the interactive chessboard to set up positions and receive detailed strategic insights.",
+            "name": "Intelli Chess Lab",
+            "url": "https://intellichesslab.com",
+            "description": "Intelli Chess Lab is an AI-powered tool designed for analyzing chess positions. Use the interactive chessboard to set up positions and receive detailed strategic insights.",
             "keywords": "chess analysis, chess strategies, AI chess, chessboard positions, chess training, deep chess analysis, artificial intelligence chess tool"
           }
           `}
         </script>
-        <title>Chess Academic - Deep Chess Analysis Powered by AI</title>
+        <title>Intelli Chess Lab - Deep Chess Analysis Powered by AI</title>
         <meta
           name="description"
-          content="Chess Academic is an AI-powered tool designed for analyzing chess positions. Use the interactive chessboard to set up positions and receive detailed strategic insights."
+          content="Intelli Chess Lab is an AI-powered tool designed for analyzing chess positions. Use the interactive chessboard to set up positions and receive detailed strategic insights."
         />
         <meta name="keywords" content="chess analysis, chess strategies, AI chess, chessboard positions, chess training, deep chess analysis, artificial intelligence chess tool" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://chessacademic.com" />
+        <link rel="canonical" href="https://intellichesslab.com" />
       </Helmet>
       {isMobile ? (
         <div className="mobile">

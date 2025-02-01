@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://chessacademic.com/sitemap.xml
+Sitemap: https://intellichesslab.com/sitemap.xml

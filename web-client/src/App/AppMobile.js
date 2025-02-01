@@ -31,9 +31,9 @@ const AppMobile = (props) => {
     <div className="App" {...handlers}>
       <header className="App-header">
         <div className="header-title-row">
-          <img src={logo} alt="Chess Academic Logo" className="App-logo" />
+          <img src={logo} alt="Intelli Chess Lab Logo" className="App-logo" />
           <div className="title-container">
-            <h1>Chess Academic</h1>
+            <h1>Intelli Chess Lab</h1>
             <h2 className="App-subtitle">Deep Chess Analysis Powered by AI</h2>
           </div>
         </div>

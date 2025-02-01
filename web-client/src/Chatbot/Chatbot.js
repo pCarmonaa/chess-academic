@@ -24,7 +24,7 @@ const Chatbot = ({ fen }) => {
   ];
 
   useEffect(() => {
-    setMessages([{ sender: 'bot', text: "Hi, I'm your chess professor. Set a position on the board, and select the analysis you want." }]);
+    setMessages([{ sender: 'bot', text: "Hi, I'm your chess analyst. Set a position on the board, and select the analysis you want." }]);
   }, []);
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const Chatbot = ({ fen }) => {
     else if(aspect === 'Plans')
       return 'Make an analysis of possible plans on the position.';
     else
-      return `Make an analysis of the ${aspect} of the position.`;
+      return `Make an analysis of the ${aspect} of the position:\n${fen}`;
   };
 
   return (
